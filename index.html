@@ -6,17 +6,17 @@
 
         <!-- <link rel="shortcut icon" type="image/png" href="jasmine/lib/jasmine-2.0.0/jasmine_favicon.png"> -->
         <!-- <link rel="stylesheet" type="text/css" href="jasmine/lib/jasmine-2.0.0/jasmine.css"> -->
-        <!-- <link href='css/main.css' rel='stylesheet'> -->
+        <link href="css/custom.css" rel="stylesheet">
     </head>
 
-    <body >
+    <body>
 
-    <div>
+    <div class="form-container">
         <form role="form" method="post"> 
                 <div>
                 <h2>Calculate your mortgage savings</h2>
                 <div>
-                    <p><input type ="loan_balance" class="form-control" placeholder="Loan Balance" autofocus name="loan_balance"></p>
+                    <p><input type ="loan_balance" class="form-control" id="loan_balance" placeholder="Loan Balance" autofocus name="loan_balance"></p>
                     <p><input type ="old_monthly_payment" class="form-control" placeholder="Current Monthly Payment" autofocus name="old_monthly_payment"></p>
                     <button type="submit">Submit</button>
                 </div>
@@ -25,9 +25,10 @@
   
     </div>      
 
-  <h2>Look at all the money you could save!</h2>
 
-  <div>
+
+  <div class="savings-grid">
+      <h2>Look at all the money you could save!</h2>
 
     <table>
       <thead>
@@ -57,6 +58,7 @@
       </tbody>
 
     </table>
+</div>
 
     <script type="text/javascript" src="js/calculator.js"></script>
     <script type="text/javascript" src="js/lenda.js"></script>

@@ -1,0 +1,44 @@
+body {
+    background-color: #E9E9E9; 
+    /*background-color: red;*/
+
+}
+
+.form-container {
+    width: 80%;
+    max-width: 1250px;
+    border-radius: 10px;
+    background-color: red;
+    color: #333333;
+    font-size: 12px;
+    font-family: 'Helvetica Neue';
+    border: 1px solid #E0E0E0; 
+    padding-left: 12px;
+    padding-right: 6px;
+}
+
+
+.savings-grid {
+    width: 80%;
+    max-width: 1250px;
+    border-radius: 10px;
+    background-color: white;
+    color: #333333;
+    font-size: 14px;
+    font-family: 'Helvetica Neue';
+    border: 1px solid #E0E0E0; 
+    padding-left: 12px;
+    padding-right: 6px;
+} 
+
+table {
+    width: 100%;
+}
+
+th {
+    height: 50px;
+}
+
+th, td {
+   border: 1px solid black;
+}
