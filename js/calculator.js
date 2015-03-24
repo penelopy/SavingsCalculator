@@ -10,23 +10,18 @@ var Calculator = function() {
   this.outputQuicken = [];
   this.outputWellsFargo = [];
 
-  //consolidate and say 'currentLender.preProcess'
   this.lenda = new LendaLender();
-  this.lenda.preProcess();
   this.wellsfargo = new WellsLender();
-  this.wellsfargo.preProcess();
   this.quicken = new QuickenLender();
-  this.quicken.preProcess();
 
   this.lenderObjects = [this.lenda, this.wellsfargo, this.quicken];
   for (var x=0; x < this.lenderObjects.length; x++) {
     currentLender = this.lenderObjects[x];
+    currentLender.preProcess();
     this.processData(currentLender, 4000, 500000);
+    this.displayRateGridinHTML(currentLender);
   };
-  console.log(this.lenda.arrayOfDataRows);
-
 };
-
 
 var dataRow = function(){
   this.savings = 0;
@@ -40,10 +35,6 @@ var dataRow = function(){
 var LendaLender = function() {
   this.lender_name = "Lenda";
   this.arrayOfDataRows = [];
-  // this.term = [];
-  // this.rate = [];
-  // this.payment = [];
-  // this.fee = [];
   this.preProcessedData = [];
 };
 
@@ -54,13 +45,8 @@ LendaLender.prototype.preProcess = function() {
 };
 
 var WellsLender = function() {
-  this.lender_name = "WellsFargo";
-  this.arrayOfDataRows = [];  
-  // this.term = 0;
-  // this.rate = 0;
-  // this.payment = 0;
-  // this.fee = 0;
-  // this.savings = 0;
+  this.lender_name = "Wells Fargo";
+  this.arrayOfDataRows = [];
   this.preProcessedData = [];
 };
 
@@ -72,11 +58,6 @@ WellsLender.prototype.preProcess = function() {
 var QuickenLender = function() {
   this.lender_name = "Quicken";
   this.arrayOfDataRows = [];
-  // this.term = 0;
-  // this.rate = 0;
-  // this.payment = 0;
-  // this.fee = 0;
-  // this.savings = 0;
   this.preProcessedData = [];
 };
 
@@ -88,9 +69,6 @@ QuickenLender.prototype.preProcess = function() {
 Calculator.prototype.processData = function(lenderObject, oldMonthlyPayment, loanAmount) {
   console.log(lenderObject.preProcessedData);
   for (var i=0; i < lenderObject.preProcessedData.length; i++) {
-    // lenderObject.term[i] = lenderObject.preProcessedData[i].term;
-    // lenderObject.fee[i] = lenderObject.preProcessedData[i].cost;
-    // lenderObject.rate[i] = lenderObject.preProcessedData[i].rate;
 
     newDataRow = new dataRow();
     newDataRow.term = lenderObject.preProcessedData[i].term;
@@ -109,11 +87,11 @@ Calculator.prototype.processData = function(lenderObject, oldMonthlyPayment, loa
   var denominator = Math.pow( ( 1 + monthlyInterestRate ), ( 12.0 * newDataRow.term )) - 1.0;
   var numOverDenom = numerator/denominator;
   newDataRow.payment = loanAmount * numOverDenom;
+  newDataRow.payment =   newDataRow.payment.toFixed(2);
   newDataRow.savings = (oldMonthlyPayment * newDataRow.term) - (newDataRow.payment * newDataRow.term);
+  newDataRow.savings =  newDataRow.savings.toFixed(2);
   lenderObject.arrayOfDataRows.push(newDataRow);
-  // console.log(lenderObject.arrayOfDataRows);
 
-  // console.log(newDataRow.savings, newDataRow.payment, newDataRow.term, newDataRow.rate);
 }
 };
 
@@ -122,23 +100,18 @@ Calculator.prototype.processUserInput = function() {
   console.log(loan_balance);
 };  
 
-// Calculator.prototype.calculateSavings = function(loanAmount, oldMonthlyPayment) {
-  
-//   // Takes APR as percentage and converts into monthly interest rate
-//   var monthlyInterestRate = this.rate/100/12;
+
+Calculator.prototype.displayRateGridinHTML = function(lenderObject) {
+  document.write("<table border=\"1\" cellpadding=\"5\">");
+  document.write("<tr><th>Lender</th><th>New Monthly Payment</th><th>Rate</th><th>Term</th><th>Savings From Refinancing</th><th>Refinance Fee</th></tr>");
+
+  for (var i = 0; i < lenderObject.arrayOfDataRows.length; i++)
+  document.write( "<tr><td>" + lenderObject.lender_name+ "</td><td>" + "$"+lenderObject.arrayOfDataRows[i].payment + "</td><td>" + "$"+lenderObject.arrayOfDataRows[i].rate + "</td><td>" + lenderObject.arrayOfDataRows[i].term + "</td><td>" + "$"+lenderObject.arrayOfDataRows[i].savings + "</td><td>" + "$"+lenderObject.arrayOfDataRows[i].fee + "</td></tr>"); 
+
+  document.write ("</table>");
+};
 
 
-//   // This function calculates monthly payment
-//   // var monthly_payment = loan_amount *(monthly_interest_rate *(Math.pow(1.0 + monthly_interest_rate, 12.0 * new_term)))/(Math.pow( ( 1 + monthly_interest_rate ), ( 12.0 * new_term )) - 1.0);    
-
-//   // Breakout of monthly payment calculation
-//   var numerator = monthlyInterestRate *(Math.pow(1.0 + monthlyInterestRate, 12.0 * newTerm));
-//   var denominator = Math.pow( ( 1 + monthlyInterestRate ), ( 12.0 * newTerm )) - 1.0;
-//   var numOverDenom = numerator/denominator;
-//   var monthlyPayment = loanAmount * numOverDenom;
-//   var totalSavings = (oldMonthlyPayment * newTerm) - (monthlyPayment * newTerm);
-
-// };
 
 
 //write event listener that watches for .click on submit button *look at JS3 program* 
@@ -146,7 +119,7 @@ Calculator.prototype.processUserInput = function() {
 //STEPS
 // draft UI and input fields **should include loan balance and current monthly payment) 
 // write event listeners
-// calcuate savings from each lender and return savings grid for user to view 
+
 // write jasmine tests
 // make an awesome UI
 
