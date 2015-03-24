@@ -1,3 +1,48 @@
+$(document).ready(function () {
+
+
+    $("#message-form").submit(handleFormSubmit);
+    // getMessages();
+
+
+    // $("#message-clear").click(function(e) {
+    //     $.get("api/wall/clear", function (response) {
+    //         formatMsg(response);
+    //     });
+
+    // });
+
+});
+
+
+/**
+ * Handle submission of the form.
+ */
+function handleFormSubmit(evt) {
+    // evt.preventDefault();
+
+    var loanText = $("#loan_amount");
+    var loan = loanText.val();
+
+    var textArea = $("#old_monthly_payment");
+    var msg = textArea.val();
+
+    console.log("handleFormSubmit: ", loan);
+    addMessage(loan);
+
+    // Reset the message container to be empty
+    textArea.val("");
+
+    // // prevent re-submission
+    // $("#message-send").prop("disabled", true);
+    // setTimeout(function() {
+    //     $("#message-send").prop("disabled", false);
+    // }, 5000);
+
+
+}
+
+
 
 var Calculator = function() {
   this.loanAmount = 0;
@@ -67,13 +112,17 @@ QuickenLender.prototype.preProcess = function() {
 };
 
 Calculator.prototype.processData = function(lenderObject, oldMonthlyPayment, loanAmount) {
-  console.log(lenderObject.preProcessedData);
   for (var i=0; i < lenderObject.preProcessedData.length; i++) {
 
     newDataRow = new dataRow();
     newDataRow.term = lenderObject.preProcessedData[i].term;
     newDataRow.fee = lenderObject.preProcessedData[i].cost;
+    // debugger;
+    // var x = newDataRow.fee.toString();
+    // console.log(x);
+
     newDataRow.rate = lenderObject.preProcessedData[i].rate;
+    newDataRow.rate = newDataRow.rate.toFixed(1);
 
   // Takes APR as percentage and converts into monthly interest rate
 
@@ -87,9 +136,25 @@ Calculator.prototype.processData = function(lenderObject, oldMonthlyPayment, loa
   var denominator = Math.pow( ( 1 + monthlyInterestRate ), ( 12.0 * newDataRow.term )) - 1.0;
   var numOverDenom = numerator/denominator;
   newDataRow.payment = loanAmount * numOverDenom;
-  newDataRow.payment =   newDataRow.payment.toFixed(2);
+  newDataRow.payment =   newDataRow.payment.toFixed(0);
+
+
+    String.prototype.splice = function( idx, rem, s ) {
+    return (this.slice(0,idx) + s + this.slice(idx + Math.abs(rem)));
+};
+
+  newDataRow.payment = newDataRow.payment.toString();
+  if (newDataRow.payment.length >= 4) {
+
+    var result = newDataRow.payment.splice( -3, 0, "," );
+    console.log(result);
+  }
+
+  // var new_x = newDataRow.payment(1000).format('$0,0.00');
+  // console.log(new_x);
+
   newDataRow.savings = (oldMonthlyPayment * newDataRow.term) - (newDataRow.payment * newDataRow.term);
-  newDataRow.savings =  newDataRow.savings.toFixed(2);
+  newDataRow.savings =  newDataRow.savings.toFixed(0);
   lenderObject.arrayOfDataRows.push(newDataRow);
 
 }
@@ -103,25 +168,15 @@ Calculator.prototype.processUserInput = function() {
 
 Calculator.prototype.displayRateGridinHTML = function(lenderObject) {
   document.write("<table border=\"1\" cellpadding=\"5\">");
-  document.write("<tr><th>Lender</th><th>New Monthly Payment</th><th>Rate</th><th>Term</th><th>Savings From Refinancing</th><th>Refinance Fee</th></tr>");
+  document.write("<tr><th>Lender</th><th>New Monthly Payment ($)</th><th>Rate (%)</th><th>Term (yr)</th><th>Savings From Refinancing ($)</th><th>Refinance Fee ($)</th></tr>");
 
   for (var i = 0; i < lenderObject.arrayOfDataRows.length; i++)
-  document.write( "<tr><td>" + lenderObject.lender_name+ "</td><td>" + "$"+lenderObject.arrayOfDataRows[i].payment + "</td><td>" + "$"+lenderObject.arrayOfDataRows[i].rate + "</td><td>" + lenderObject.arrayOfDataRows[i].term + "</td><td>" + "$"+lenderObject.arrayOfDataRows[i].savings + "</td><td>" + "$"+lenderObject.arrayOfDataRows[i].fee + "</td></tr>"); 
+  document.write( "<tr><td>" + lenderObject.lender_name+ "</td><td>" + lenderObject.arrayOfDataRows[i].payment + "</td><td>" + lenderObject.arrayOfDataRows[i].rate + "</td><td>" + lenderObject.arrayOfDataRows[i].term + "</td><td>" +lenderObject.arrayOfDataRows[i].savings + "</td><td>" + lenderObject.arrayOfDataRows[i].fee + "</td></tr>"); 
 
   document.write ("</table>");
 };
 
 
-
-
-//write event listener that watches for .click on submit button *look at JS3 program* 
-
-//STEPS
-// draft UI and input fields **should include loan balance and current monthly payment) 
-// write event listeners
-
-// write jasmine tests
-// make an awesome UI
 
 
 
