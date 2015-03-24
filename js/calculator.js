@@ -42,7 +42,14 @@ function handleFormSubmit(evt) {
 
 }
 
+// Monkey patch in new function on String.prototype to format currency numbers
+String.prototype.insertComma = function() {
+if (this.length >= 4) {
 
+  // var result = newDataRow.payment.insertComma( -3, 0, "," );
+return (this.slice(0,-3) + "," + this.slice(-3 + Math.abs(0)));
+}
+};
 
 var Calculator = function() {
   this.loanAmount = 0;
@@ -66,6 +73,7 @@ var Calculator = function() {
     this.processData(currentLender, 4000, 500000);
     this.displayRateGridinHTML(currentLender);
   };
+
 };
 
 var dataRow = function(){
@@ -117,10 +125,6 @@ Calculator.prototype.processData = function(lenderObject, oldMonthlyPayment, loa
     newDataRow = new dataRow();
     newDataRow.term = lenderObject.preProcessedData[i].term;
     newDataRow.fee = lenderObject.preProcessedData[i].cost;
-    // debugger;
-    // var x = newDataRow.fee.toString();
-    // console.log(x);
-
     newDataRow.rate = lenderObject.preProcessedData[i].rate;
     newDataRow.rate = newDataRow.rate.toFixed(1);
 
@@ -138,20 +142,7 @@ Calculator.prototype.processData = function(lenderObject, oldMonthlyPayment, loa
   newDataRow.payment = loanAmount * numOverDenom;
   newDataRow.payment =   newDataRow.payment.toFixed(0);
 
-
-    String.prototype.splice = function( idx, rem, s ) {
-    return (this.slice(0,idx) + s + this.slice(idx + Math.abs(rem)));
-};
-
-  newDataRow.payment = newDataRow.payment.toString();
-  if (newDataRow.payment.length >= 4) {
-
-    var result = newDataRow.payment.splice( -3, 0, "," );
-    console.log(result);
-  }
-
-  // var new_x = newDataRow.payment(1000).format('$0,0.00');
-  // console.log(new_x);
+  newDataRow.payment = newDataRow.payment.toString().insertComma();
 
   newDataRow.savings = (oldMonthlyPayment * newDataRow.term) - (newDataRow.payment * newDataRow.term);
   newDataRow.savings =  newDataRow.savings.toFixed(0);
