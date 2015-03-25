@@ -18,12 +18,20 @@
                 <div>
                 <h2>Calculate your mortgage savings</h2>
                 <div>
-                    <p><input type ="loan_balance" class="form-control" id="loan_balance" placeholder="Loan Balance" autofocus name="loan_balance"></p>
+
+                    <form id="frm1" action="form_action.asp">
+                      Loan Amount: <input type="text" id="loan_amount"><br>
+                      Current Monthly Payment: <input type="text" id="mo_payment"><br><br>
+                      <input type="submit" id="clickMe" value="Submit">
+                    </form> 
+
+                    <!-- <button onclick="processForm()">Submit</button> -->
+<!--                     <p><input type ="loan_balance" class="form-control" id="loan_balance" placeholder="Loan Balance" autofocus name="loan_balance"></p>
                     <p><input type ="old_monthly_payment" class="form-control" id="old_monthly_payment" placeholder="Current Monthly Payment" autofocus name="old_monthly_payment"></p>
-                    <button type="submit">Submit</button>
+                    <button type="submit">Submit</button> -->
                 </div>
                 </div>
-        </form>
+        <!-- </form> -->
   
     </div>      
 

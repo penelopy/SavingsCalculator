@@ -3,7 +3,8 @@
 
 //     $("#message-form").submit(handleFormSubmit);
 //     // getMessages();
-
+//     var oForm = document.forms["#loan_amount"];
+//     console.log(oForm);
 
 //     // $("#message-clear").click(function(e) {
 //     //     $.get("api/wall/clear", function (response) {
@@ -19,28 +20,34 @@
 //  * Handle submission of the form.
 //  */
 // function handleFormSubmit(evt) {
-//     // evt.preventDefault();
+    // evt.preventDefault();
 
-//     var loanText = $("#loan_amount");
-//     var loan = loanText.val();
+    // var loanText = $("#loan_amount");
+    // var loan = loanText.val();
 
-//     var textArea = $("#old_monthly_payment");
-//     var msg = textArea.val();
+    // var textArea = $("#old_monthly_payment");
+    // var msg = textArea.val();
 
-//     console.log("handleFormSubmit: ", loan);
-//     addMessage(loan);
+    // console.log("handleFormSubmit: ", loan);
+    // addMessage(loan);
 
-//     // Reset the message container to be empty
-//     textArea.val("");
+    // // Reset the message container to be empty
+    // textArea.val("");
 
-//     // // prevent re-submission
-//     // $("#message-send").prop("disabled", true);
-//     // setTimeout(function() {
-//     //     $("#message-send").prop("disabled", false);
-//     // }, 5000);
+      // var oForm = document.forms[1];
 
+  // OR
+  // var oForm = document.forms["#loan_amount"];
+  // console.log(oForm);
+  // once you have form in a variavle you can access your element inside form like this:
 
-// }
+  // var myElement = oForm.elements[2]; 
+  // OR
+  // var myElement = oForm.elements["elementId"];
+  // furthermore you can access the value of the element like this:
+
+  // var value = oForm.elements["elementId"].value;
+
 
 // Monkey patch in new function on String.prototype to format currency numbers
 String.prototype.insertComma = function() {
@@ -52,16 +59,17 @@ return (this.slice(0,-3) + "," + this.slice(-3 + Math.abs(0)));
 };
 
 var Calculator = function() {
+
   this.loanAmount = 0;
   this.newTerm = 0;
   this.monthlyPayment = 0;
   this.monthlyInterestRate = 0;
   this.totalPayments = 0;
   this.outputArray = [];
-  // this.outputLenda = [];
-  // this.outputQuicken = [];
-  // this.outputWellsFargo = [];
 
+  document.getElementById("clickMe").onclick = function () { processForm(); };
+
+  // document.getElementById("clickMe").onclick = processForm();
   this.lenda = new LendaLender();
   this.wellsfargo = new WellsLender();
   this.quicken = new QuickenLender();
@@ -73,7 +81,15 @@ var Calculator = function() {
     this.processData(currentLender, 4000, 500000);
     this.displayRateGridinHTML(currentLender);
   };
+  // this.processUserInput();
 
+};
+
+var processForm = function() {
+    var loanAmount = document.getElementById("loan_amount").value;
+    var oldMonthlyPayment = document.getElementById("mo_payment").value;
+
+    console.log(oldMonthlyPayment);
 };
 
 var dataRow = function(){
@@ -100,7 +116,6 @@ LendaLender.prototype.preProcess = function() {
     response['cost'] = 0;
     modifiedData.push(response);
   };
-  console.log(modifiedData);
   this.preProcessedData = modifiedData;
 
 
