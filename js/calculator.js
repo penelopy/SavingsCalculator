@@ -143,8 +143,8 @@ Calculator.prototype.processData = function(lenderObject) {
   newDataRow.savings = (this.oldMonthlyPayment * newDataRow.term) - (newDataRow.payment * newDataRow.term);
 
   newDataRow.savings =  newDataRow.savings.toFixed(0);
-  // newDataRow.savings =   newDataRow.savings.toString().insertComma();
-  // newDataRow.payment = newDataRow.payment.toString().insertComma();
+  newDataRow.savings =   newDataRow.savings.toString().insertComma();
+  newDataRow.payment = newDataRow.payment.toString().insertComma();
   lenderObject.arrayOfDataRows.push(newDataRow);
   console.log("*****")
   console.log(lenderObject.arrayOfDataRows);
