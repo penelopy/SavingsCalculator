@@ -1,75 +1,22 @@
-// $(document).ready(function () {
-
-
-//     $("#message-form").submit(handleFormSubmit);
-//     // getMessages();
-//     var oForm = document.forms["#loan_amount"];
-//     console.log(oForm);
-
-//     // $("#message-clear").click(function(e) {
-//     //     $.get("api/wall/clear", function (response) {
-//     //         formatMsg(response);
-//     //     });
-
-//     // });
-
-// });
-
-
-// /**
-//  * Handle submission of the form.
-//  */
-// function handleFormSubmit(evt) {
-    // evt.preventDefault();
-
-    // var loanText = $("#loan_amount");
-    // var loan = loanText.val();
-
-    // var textArea = $("#old_monthly_payment");
-    // var msg = textArea.val();
-
-    // console.log("handleFormSubmit: ", loan);
-    // addMessage(loan);
-
-    // // Reset the message container to be empty
-    // textArea.val("");
-
-      // var oForm = document.forms[1];
-
-  // OR
-  // var oForm = document.forms["#loan_amount"];
-  // console.log(oForm);
-  // once you have form in a variavle you can access your element inside form like this:
-
-  // var myElement = oForm.elements[2]; 
-  // OR
-  // var myElement = oForm.elements["elementId"];
-  // furthermore you can access the value of the element like this:
-
-  // var value = oForm.elements["elementId"].value;
-
 
 // Monkey patch in new function on String.prototype to format currency numbers
 String.prototype.insertComma = function() {
 if (this.length >= 4) {
-
-  // var result = newDataRow.payment.insertComma( -3, 0, "," );
-return (this.slice(0,-3) + "," + this.slice(-3 + Math.abs(0)));
+  return (this.slice(0,-3) + "," + this.slice(-3 + Math.abs(0)));
 }
 };
 
 var Calculator = function() {
-
-  this.loanAmount = 0;
+  this.loanAmount = 3;
+  this.oldMonthlyPayment = 3;
   this.newTerm = 0;
   this.monthlyPayment = 0;
   this.monthlyInterestRate = 0;
   this.totalPayments = 0;
   this.outputArray = [];
+  // debugger;
 
   document.getElementById("clickMe").onclick = function () { processForm(); };
-
-  // document.getElementById("clickMe").onclick = processForm();
   this.lenda = new LendaLender();
   this.wellsfargo = new WellsLender();
   this.quicken = new QuickenLender();
@@ -78,18 +25,16 @@ var Calculator = function() {
   for (var x=0; x < this.lenderObjects.length; x++) {
     currentLender = this.lenderObjects[x];
     currentLender.preProcess();
-    this.processData(currentLender, 4000, 500000);
+    // this.processData(currentLender, 4000, 500000);
+    this.processData(currentLender);
+
     this.displayRateGridinHTML(currentLender);
   };
-  // this.processUserInput();
-
 };
 
 var processForm = function() {
-    var loanAmount = document.getElementById("loan_amount").value;
-    var oldMonthlyPayment = document.getElementById("mo_payment").value;
-
-    console.log(oldMonthlyPayment);
+  this.loanAmount = document.getElementById("loan_amount").value;
+  this.oldMonthlyPayment = document.getElementById("mo_payment").value;
 };
 
 var dataRow = function(){
@@ -115,10 +60,8 @@ LendaLender.prototype.preProcess = function() {
     response = this.lendaData[i];
     response['cost'] = 0;
     modifiedData.push(response);
-  };
+  }
   this.preProcessedData = modifiedData;
-
-
 };
 
 var WellsLender = function() {
@@ -143,7 +86,9 @@ QuickenLender.prototype.preProcess = function() {
   this.preProcessedData = this.quickenData;
 };
 
-Calculator.prototype.processData = function(lenderObject, oldMonthlyPayment, loanAmount) {
+Calculator.prototype.processData = function(lenderObject) {
+  console.log(this.loanAmount);
+  console.log(this.oldMonthlyPayment);
   for (var i=0; i < lenderObject.preProcessedData.length; i++) {
 
     newDataRow = new dataRow();
@@ -167,11 +112,10 @@ Calculator.prototype.processData = function(lenderObject, oldMonthlyPayment, loa
   var numerator = monthlyInterestRate *(Math.pow(1.0 + monthlyInterestRate, 12.0 * newDataRow.term));
   var denominator = Math.pow( ( 1 + monthlyInterestRate ), ( 12.0 * newDataRow.term )) - 1.0;
   var numOverDenom = numerator/denominator;
-  newDataRow.payment = loanAmount * numOverDenom;
+  newDataRow.payment = this.loanAmount * numOverDenom;
   newDataRow.payment =   newDataRow.payment.toFixed(0);
 
-
-  newDataRow.savings = (oldMonthlyPayment * newDataRow.term) - (newDataRow.payment * newDataRow.term);
+  newDataRow.savings = (this.oldMonthlyPayment * newDataRow.term) - (newDataRow.payment * newDataRow.term);
   newDataRow.savings =  newDataRow.savings.toFixed(0);
   newDataRow.savings =   newDataRow.savings.toString().insertComma();
   newDataRow.payment = newDataRow.payment.toString().insertComma();
@@ -179,16 +123,10 @@ Calculator.prototype.processData = function(lenderObject, oldMonthlyPayment, loa
 
 }
 };
-
-// Calculator.prototype.processUserInput = function() {
-//   loan_balance = document.getElementById("loan_balance").value;
-//   console.log(loan_balance);
-// };  
-
-
+ 
 Calculator.prototype.displayRateGridinHTML = function(lenderObject) {
   document.write("<table border=\"1\" cellpadding=\"5\">");
-  document.write("<tr><th>Lender</th><th>New Monthly Payment ($)</th><th>Rate (%)</th><th>Term (yr)</th><th>Savings From Refinancing ($)</th><th>Refinance Fee ($)</th></tr>");
+  document.write("<tr><th>Lender</th><th>New Monthly Payment ($)</th><th>Rate (%)</th><th>Term (yr)</th><th>Total Savings ($)</th><th>Refinance Fee ($)</th></tr>");
 
   for (var i = 0; i < lenderObject.arrayOfDataRows.length; i++)
   document.write( "<tr><td>" + lenderObject.lender_name+ "</td><td>" + lenderObject.arrayOfDataRows[i].payment + "</td><td>" + lenderObject.arrayOfDataRows[i].rate + "</td><td>" + lenderObject.arrayOfDataRows[i].term + "</td><td>" +lenderObject.arrayOfDataRows[i].savings + "</td><td>" + lenderObject.arrayOfDataRows[i].fee + "</td></tr>"); 
