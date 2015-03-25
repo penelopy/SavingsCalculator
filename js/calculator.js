@@ -22,33 +22,35 @@ var Calculator = function() {
   this.quicken = new QuickenLender();
 
   this.lenderObjects = [this.lenda, this.wellsfargo, this.quicken];
-  
+
+  this.preProcessData();
+  this.processAndDisplayData();
+};
+
+Calculator.prototype.preProcessData = function() {
+  // Preprocess data from remote sources
   for (var x=0; x < this.lenderObjects.length; x++) {
     currentLender = this.lenderObjects[x];
     currentLender.preProcess();
-    // this.processData(currentLender, 4000, 500000);
-    // this.processData(currentLender);
-
-    // this.displayRateGridinHTML(currentLender);
   };
+};
 
+
+Calculator.prototype.processAndDisplayData = function() {
+  // Process data
   for (var x=0; x < this.lenderObjects.length; x++) {
     currentLender = this.lenderObjects[x];
     this.processData(currentLender);
   };
-
+  // Display data
   for (var x=0; x < this.lenderObjects.length; x++) {
     currentLender = this.lenderObjects[x];
     this.displayRateGridinHTML(currentLender);
   };
-
-
-
-};
-
-Calculator.prototype.temp = function() {
   
 };
+
+
 Calculator.prototype.processForm = function() {
   // debugger;
   this.loanAmount = document.getElementById("loan_amount").value;
