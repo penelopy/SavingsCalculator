@@ -6,9 +6,8 @@ if (this.length >= 4) {
 };
 
 var Calculator = function() {
-  // this.initGrid();
-  this.loanAmount = 3;
-  this.oldMonthlyPayment = 3;
+  this.loanAmount = 0;
+  this.oldMonthlyPayment = 0;
   this.newTerm = 0;
   this.monthlyPayment = 0;
   this.monthlyInterestRate = 0;
@@ -20,7 +19,10 @@ var Calculator = function() {
   this.lenda = new LendaLender();
   this.wellsfargo = new WellsLender();
   this.quicken = new QuickenLender();
-  this.lenderObjects = [this.lenda, this.wellsfargo, this.quicken];
+  this.lenderObjects = [this.wellsfargo];
+  this.lenderObjects = [this.lenda, this.wellsfargo];
+  // this.lenderObjects = [this.lenda, this.wellsfargo, this.quicken];
+  this.lenderObjects = [this.wellsfargo, this.quicken, this.lenda];
 
   // Place initial values on GUI
   this.preProcessData();
@@ -40,6 +42,7 @@ Calculator.prototype.processAndDisplayData = function() {
   for (var x=0; x < this.lenderObjects.length; x++) {
     currentLender = this.lenderObjects[x];
     this.processData(currentLender);
+    console.log(currentLender.arrayOfDataRows);
   };
   // Display data
   for (var x=0; x < this.lenderObjects.length; x++) {
@@ -100,7 +103,6 @@ var QuickenLender = function() {
   this.arrayOfDataRows = [];
   this.preProcessedData = [];
   this.firstIteration = true;
-
 };
 
 QuickenLender.prototype.preProcess = function() {
@@ -109,9 +111,9 @@ QuickenLender.prototype.preProcess = function() {
 };
 
 Calculator.prototype.processData = function(lenderObject) {
+
   lenderObject.arrayOfDataRows = [];  
   for (var i=0; i < lenderObject.preProcessedData.length; i++) {
-
     newDataRow = new dataRow();
     newDataRow.term = lenderObject.preProcessedData[i].term;
     newDataRow.fee = lenderObject.preProcessedData[i].cost;
@@ -137,29 +139,27 @@ Calculator.prototype.processData = function(lenderObject) {
   newDataRow.payment =   newDataRow.payment.toFixed(0);
 
   newDataRow.savings = (this.oldMonthlyPayment * newDataRow.term) - (newDataRow.payment * newDataRow.term);
+
   newDataRow.savings =  newDataRow.savings.toFixed(0);
-  newDataRow.savings =   newDataRow.savings.toString().insertComma();
-  newDataRow.payment = newDataRow.payment.toString().insertComma();
+  // newDataRow.savings =   newDataRow.savings.toString().insertComma();
+  // newDataRow.payment = newDataRow.payment.toString().insertComma();
   lenderObject.arrayOfDataRows.push(newDataRow);
+  console.log("*****")
+  console.log(lenderObject.arrayOfDataRows);
   }
 };
 
 Calculator.prototype.displayRateGridInHTML = function(lenderObject) {
   var table = document.getElementById("myTable");
   if (lenderObject.firstIteration === false) {
-    console.log("if false");
     for (var j=0; j < lenderObject.arrayOfDataRows.length + 1; j++){
-      // console.log(lenderObject.arrayOfDataRows[j]);
-      table.deleteRow(0);
+      table.deleteRow(-1);
     }
   } else {
-    console.log("else");
     lenderObject.firstIteration = false;
   }
 
-
   for (var i = 0; i < lenderObject.arrayOfDataRows.length; i++) {
-    console.log(i);
     var row = table.insertRow(0);
     var name_cell = row.insertCell(-1);
     var payment_cell = row.insertCell(-1);
