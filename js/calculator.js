@@ -14,27 +14,49 @@ var Calculator = function() {
   this.monthlyInterestRate = 0;
   this.totalPayments = 0;
   this.outputArray = [];
-  // debugger;
+  this.calculator = this;
 
-  document.getElementById("clickMe").onclick = function () { processForm(); };
+  document.getElementById("clickMe").onclick = function () { window.calculator.processForm(); };
   this.lenda = new LendaLender();
   this.wellsfargo = new WellsLender();
   this.quicken = new QuickenLender();
 
   this.lenderObjects = [this.lenda, this.wellsfargo, this.quicken];
+  
   for (var x=0; x < this.lenderObjects.length; x++) {
     currentLender = this.lenderObjects[x];
     currentLender.preProcess();
     // this.processData(currentLender, 4000, 500000);
-    this.processData(currentLender);
+    // this.processData(currentLender);
 
+    // this.displayRateGridinHTML(currentLender);
+  };
+
+  for (var x=0; x < this.lenderObjects.length; x++) {
+    currentLender = this.lenderObjects[x];
+    this.processData(currentLender);
+  };
+
+  for (var x=0; x < this.lenderObjects.length; x++) {
+    currentLender = this.lenderObjects[x];
     this.displayRateGridinHTML(currentLender);
   };
+
+
+
 };
 
-var processForm = function() {
+Calculator.prototype.temp = function() {
+  
+};
+Calculator.prototype.processForm = function() {
+  // debugger;
   this.loanAmount = document.getElementById("loan_amount").value;
   this.oldMonthlyPayment = document.getElementById("mo_payment").value;
+  console.log(this.loanAmount);
+  console.log(this.oldMonthlyPayment);
+  console.log("processForm");
+
 };
 
 var dataRow = function(){
@@ -89,6 +111,7 @@ QuickenLender.prototype.preProcess = function() {
 Calculator.prototype.processData = function(lenderObject) {
   console.log(this.loanAmount);
   console.log(this.oldMonthlyPayment);
+  // debugger
   for (var i=0; i < lenderObject.preProcessedData.length; i++) {
 
     newDataRow = new dataRow();
