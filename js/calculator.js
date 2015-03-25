@@ -67,7 +67,8 @@ Calculator.prototype.processAndDisplayData = function() {
     this.processData(currentLender);
   };
   // Display data
-  for (var x=0; x < this.lenderObjects.length; x++) {
+  for (var x=0; x < 1; x++) {
+  // for (var x=0; x < this.lenderObjects.length; x++) {
     currentLender = this.lenderObjects[x];
     this.displayRateGridInHTML(currentLender);
   };
@@ -76,9 +77,9 @@ Calculator.prototype.processAndDisplayData = function() {
 Calculator.prototype.processForm = function() {
   this.loanAmount = document.getElementById("loan_amount").value;
   this.oldMonthlyPayment = document.getElementById("mo_payment").value;
-  console.log(this.loanAmount);
-  console.log(this.oldMonthlyPayment);
-  console.log("processForm");
+  // console.log(this.loanAmount);
+  // console.log(this.oldMonthlyPayment);
+  // console.log("processForm");
   this.processAndDisplayData();
 
 };
@@ -138,8 +139,9 @@ QuickenLender.prototype.preProcess = function() {
 };
 
 Calculator.prototype.processData = function(lenderObject) {
-  console.log(this.loanAmount);
-  console.log(this.oldMonthlyPayment);
+  lenderObject.arrayOfDataRows = [];  
+  // console.log(this.loanAmount);
+  // console.log(this.oldMonthlyPayment);
   // debugger
   for (var i=0; i < lenderObject.preProcessedData.length; i++) {
 
@@ -197,19 +199,20 @@ Calculator.prototype.processData = function(lenderObject) {
 
 Calculator.prototype.displayRateGridInHTML = function(lenderObject) {
   var table = document.getElementById("myTable");
-  // if (lenderObject.firstIteration === false) {
-  //   console.log("if false");
-  //   for (var j=0; j < lenderObject.arrayOfDataRows.length + 1; j++){
-  //     // console.log(lenderObject.arrayOfDataRows[j]);
-  //     table.deleteRow(0);
-  //   }
-  // } else {
-  //   console.log("else");
-  //   lenderObject.firstIteration = false;
-  // }
+  if (lenderObject.firstIteration === false) {
+    console.log("if false");
+    for (var j=0; j < lenderObject.arrayOfDataRows.length + 1; j++){
+      // console.log(lenderObject.arrayOfDataRows[j]);
+      table.deleteRow(0);
+    }
+  } else {
+    console.log("else");
+    lenderObject.firstIteration = false;
+  }
 
 
   for (var i = 0; i < lenderObject.arrayOfDataRows.length; i++) {
+    console.log(i);
     var row = table.insertRow(0);
     var name_cell = row.insertCell(-1);
     var payment_cell = row.insertCell(-1);
@@ -239,8 +242,8 @@ Calculator.prototype.displayRateGridInHTML = function(lenderObject) {
     savings_cell.innerHTML = "Total Savings ($)";
     fee_cell.innerHTML = "Finance Fee ($)";
 
-
-    table.deleteRow(0);
+    // debugger;
+    // table.deleteRow(0);
 };
   //   if (lenderObject.firstIteration === false) {
   //   console.log("if false");
