@@ -194,9 +194,14 @@ Calculator.prototype.displayRateGridInHTML = function(lenderObject) {
   // for (var i=0; i < lenderObject.length; i++){
     // for (var j=0; j < 5; j++) {
 
-  for (var j = 0; j < lenderObject.arrayOfDataRows.length; j++)
+  for (var i = 0; i < lenderObject.arrayOfDataRows.length; i++) {
     var row = table.insertRow(0);
     var name_cell = row.insertCell(0);
+    var payment_cell = row.insertCell(0);
+    var rate_cell = row.insertCell(0);
+    var term_cell = row.insertCell(0);
+    var savings_cell = row.insertCell(0);
+    var fee_cell = row.insertCell(0);
     name_cell.innerHTML = lenderObject.lender_name;
     payment_cell.innerHTML = lenderObject.arrayOfDataRows[i].payment;
     rate_cell.innerHTML = lenderObject.arrayOfDataRows[i].rate;
@@ -204,10 +209,10 @@ Calculator.prototype.displayRateGridInHTML = function(lenderObject) {
     savings_cell.innerHTML = lenderObject.arrayOfDataRows[i].savings;
     fee_cell.innerHTML = lenderObject.arrayOfDataRows[i].fee;
 
-
+}
           // cell1.innerHTML = "NEW CELL1";
           // var cell2 = row.insertCell(1);
-        }
+    };
         // cell2.innerHTML = "NEW CELL2: " + i;
 
     // table.deleteRow(6);
