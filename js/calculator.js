@@ -1,46 +1,46 @@
-$(document).ready(function () {
+// $(document).ready(function () {
 
 
-    $("#message-form").submit(handleFormSubmit);
-    // getMessages();
+//     $("#message-form").submit(handleFormSubmit);
+//     // getMessages();
 
 
-    // $("#message-clear").click(function(e) {
-    //     $.get("api/wall/clear", function (response) {
-    //         formatMsg(response);
-    //     });
+//     // $("#message-clear").click(function(e) {
+//     //     $.get("api/wall/clear", function (response) {
+//     //         formatMsg(response);
+//     //     });
 
-    // });
+//     // });
 
-});
-
-
-/**
- * Handle submission of the form.
- */
-function handleFormSubmit(evt) {
-    // evt.preventDefault();
-
-    var loanText = $("#loan_amount");
-    var loan = loanText.val();
-
-    var textArea = $("#old_monthly_payment");
-    var msg = textArea.val();
-
-    console.log("handleFormSubmit: ", loan);
-    addMessage(loan);
-
-    // Reset the message container to be empty
-    textArea.val("");
-
-    // // prevent re-submission
-    // $("#message-send").prop("disabled", true);
-    // setTimeout(function() {
-    //     $("#message-send").prop("disabled", false);
-    // }, 5000);
+// });
 
 
-}
+// /**
+//  * Handle submission of the form.
+//  */
+// function handleFormSubmit(evt) {
+//     // evt.preventDefault();
+
+//     var loanText = $("#loan_amount");
+//     var loan = loanText.val();
+
+//     var textArea = $("#old_monthly_payment");
+//     var msg = textArea.val();
+
+//     console.log("handleFormSubmit: ", loan);
+//     addMessage(loan);
+
+//     // Reset the message container to be empty
+//     textArea.val("");
+
+//     // // prevent re-submission
+//     // $("#message-send").prop("disabled", true);
+//     // setTimeout(function() {
+//     //     $("#message-send").prop("disabled", false);
+//     // }, 5000);
+
+
+// }
 
 // Monkey patch in new function on String.prototype to format currency numbers
 String.prototype.insertComma = function() {
@@ -58,9 +58,9 @@ var Calculator = function() {
   this.monthlyInterestRate = 0;
   this.totalPayments = 0;
   this.outputArray = [];
-  this.outputLenda = [];
-  this.outputQuicken = [];
-  this.outputWellsFargo = [];
+  // this.outputLenda = [];
+  // this.outputQuicken = [];
+  // this.outputWellsFargo = [];
 
   this.lenda = new LendaLender();
   this.wellsfargo = new WellsLender();
@@ -94,7 +94,16 @@ var LendaLender = function() {
 LendaLender.prototype.preProcess = function() {
   this.lendaRates = new LendaAPI();
   this.lendaData = this.lendaRates.rates;
-  this.preProcessedData = this.lendaData;
+  var modifiedData = [];
+  for (var i=0; i < this.lendaData.length; i++) {
+    response = this.lendaData[i];
+    response['cost'] = 0;
+    modifiedData.push(response);
+  };
+  console.log(modifiedData);
+  this.preProcessedData = modifiedData;
+
+
 };
 
 var WellsLender = function() {
@@ -125,6 +134,10 @@ Calculator.prototype.processData = function(lenderObject, oldMonthlyPayment, loa
     newDataRow = new dataRow();
     newDataRow.term = lenderObject.preProcessedData[i].term;
     newDataRow.fee = lenderObject.preProcessedData[i].cost;
+
+    if (newDataRow.fee >= 1000) {
+      newDataRow.fee = newDataRow.fee.toString().insertComma();
+    }
     newDataRow.rate = lenderObject.preProcessedData[i].rate;
     newDataRow.rate = newDataRow.rate.toFixed(1);
 
@@ -142,19 +155,20 @@ Calculator.prototype.processData = function(lenderObject, oldMonthlyPayment, loa
   newDataRow.payment = loanAmount * numOverDenom;
   newDataRow.payment =   newDataRow.payment.toFixed(0);
 
-  newDataRow.payment = newDataRow.payment.toString().insertComma();
 
   newDataRow.savings = (oldMonthlyPayment * newDataRow.term) - (newDataRow.payment * newDataRow.term);
   newDataRow.savings =  newDataRow.savings.toFixed(0);
+  newDataRow.savings =   newDataRow.savings.toString().insertComma();
+  newDataRow.payment = newDataRow.payment.toString().insertComma();
   lenderObject.arrayOfDataRows.push(newDataRow);
 
 }
 };
 
-Calculator.prototype.processUserInput = function() {
-  loan_balance = document.getElementById("loan_balance").value;
-  console.log(loan_balance);
-};  
+// Calculator.prototype.processUserInput = function() {
+//   loan_balance = document.getElementById("loan_balance").value;
+//   console.log(loan_balance);
+// };  
 
 
 Calculator.prototype.displayRateGridinHTML = function(lenderObject) {
