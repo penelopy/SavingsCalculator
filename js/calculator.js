@@ -20,9 +20,9 @@ var Calculator = function() {
   this.lenda = new LendaLender();
   this.wellsfargo = new WellsLender();
   this.quicken = new QuickenLender();
-
   this.lenderObjects = [this.lenda, this.wellsfargo, this.quicken];
 
+  // Place initial values on GUI
   this.preProcessData();
   this.processAndDisplayData();
 };
@@ -35,7 +35,6 @@ Calculator.prototype.preProcessData = function() {
   };
 };
 
-
 Calculator.prototype.processAndDisplayData = function() {
   // Process data
   for (var x=0; x < this.lenderObjects.length; x++) {
@@ -45,19 +44,17 @@ Calculator.prototype.processAndDisplayData = function() {
   // Display data
   for (var x=0; x < this.lenderObjects.length; x++) {
     currentLender = this.lenderObjects[x];
-    this.displayRateGridinHTML(currentLender);
+    this.displayRateGridInHTML(currentLender);
   };
-  
 };
 
-
 Calculator.prototype.processForm = function() {
-  // debugger;
   this.loanAmount = document.getElementById("loan_amount").value;
   this.oldMonthlyPayment = document.getElementById("mo_payment").value;
   console.log(this.loanAmount);
   console.log(this.oldMonthlyPayment);
   console.log("processForm");
+  this.processAndDisplayData();
 
 };
 
@@ -149,7 +146,7 @@ Calculator.prototype.processData = function(lenderObject) {
 }
 };
  
-Calculator.prototype.displayRateGridinHTML = function(lenderObject) {
+Calculator.prototype.displayRateGridInHTML = function(lenderObject) {
   document.write("<table border=\"1\" cellpadding=\"5\">");
   document.write("<tr><th>Lender</th><th>New Monthly Payment ($)</th><th>Rate (%)</th><th>Term (yr)</th><th>Total Savings ($)</th><th>Refinance Fee ($)</th></tr>");
 
