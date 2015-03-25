@@ -197,13 +197,16 @@ Calculator.prototype.processData = function(lenderObject) {
 
 Calculator.prototype.displayRateGridInHTML = function(lenderObject) {
   var table = document.getElementById("myTable");
-  if (lenderObject.firstIteration === false) {
-    for (var j=0; j < lenderObject.arrayOfDataRows.length; j++){
-      table.deleteRow(0);
-    }
-  } else {
-    lenderObject.firstIteration = false;
-  }
+  // if (lenderObject.firstIteration === false) {
+  //   console.log("if false");
+  //   for (var j=0; j < lenderObject.arrayOfDataRows.length + 1; j++){
+  //     // console.log(lenderObject.arrayOfDataRows[j]);
+  //     table.deleteRow(0);
+  //   }
+  // } else {
+  //   console.log("else");
+  //   lenderObject.firstIteration = false;
+  // }
 
 
   for (var i = 0; i < lenderObject.arrayOfDataRows.length; i++) {
@@ -235,7 +238,20 @@ Calculator.prototype.displayRateGridInHTML = function(lenderObject) {
     term_cell.innerHTML = "Term (yr)";
     savings_cell.innerHTML = "Total Savings ($)";
     fee_cell.innerHTML = "Finance Fee ($)";
-    };
+
+
+    table.deleteRow(0);
+};
+  //   if (lenderObject.firstIteration === false) {
+  //   console.log("if false");
+  //   for (var j=0; j < lenderObject.arrayOfDataRows.length + 1; j++){
+  //     // console.log(lenderObject.arrayOfDataRows[j]);
+  //     table.deleteRow(0);
+  //   }
+  // } else {
+  //   console.log("else");
+  //   lenderObject.firstIteration = false;
+  // };
 
 
 
