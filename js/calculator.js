@@ -7,6 +7,7 @@ if (this.length >= 4) {
 };
 
 var Calculator = function() {
+  // this.initGrid();
   this.loanAmount = 3;
   this.oldMonthlyPayment = 3;
   this.newTerm = 0;
@@ -15,6 +16,29 @@ var Calculator = function() {
   this.totalPayments = 0;
   this.outputArray = [];
   this.calculator = this;
+
+//   // function myFunction() {
+//     var table = document.getElementById("myTable");
+//     for (var i=0; i < 10; i++){
+//         var row = table.insertRow(0);
+//         for (var j=0; j < 5; j++) {
+//           var cell1 = row.insertCell(0);
+
+//           rate_cell.innerHTML = dataRow.rate;
+          // rate_cell.innerHTML = dataRow.rate;
+          // rate_cell.innerHTML = dataRow.rate;
+          // rate_cell.innerHTML = dataRow.rate;
+          // rate_cell.innerHTML = dataRow.rate;
+          // rate_cell.innerHTML = dataRow.rate;
+          // rate_cell.innerHTML = dataRow.rate;
+          // rate_cell.innerHTML = dataRow.rate;
+
+//           cell1.innerHTML = "NEW CELL1";
+//           // var cell2 = row.insertCell(1);
+//         }
+//         // cell2.innerHTML = "NEW CELL2: " + i;
+// }
+//     table.deleteRow(6);
 
   document.getElementById("clickMe").onclick = function () { window.calculator.processForm(); };
   this.lenda = new LendaLender();
@@ -146,18 +170,47 @@ Calculator.prototype.processData = function(lenderObject) {
 }
 };
  
+// Calculator.prototype.initGrid = function() {
+//   document.write("<table border=\"1\" cellpadding=\"5\">");
+//   document.write("<tr><th>Lender</th><th>New Monthly Payment ($)</th><th>Rate (%)</th><th>Term (yr)</th><th>Total Savings ($)</th><th>Refinance Fee ($)</th></tr>");
+
+//   document.write ("</table>");
+// };
+
+
+// Calculator.prototype.displayRateGridInHTML = function(lenderObject) {
+//   document.write("<table border=\"1\" cellpadding=\"5\">");
+//   document.write("<tr><th>Lender</th><th>New Monthly Payment ($)</th><th>Rate (%)</th><th>Term (yr)</th><th>Total Savings ($)</th><th>Refinance Fee ($)</th></tr>");
+
+//   for (var i = 0; i < lenderObject.arrayOfDataRows.length; i++)
+//   document.write( "<tr><td>" + lenderObject.lender_name + "</td><td>" + lenderObject.arrayOfDataRows[i].payment + "</td><td>" + lenderObject.arrayOfDataRows[i].rate + "</td><td>" + lenderObject.arrayOfDataRows[i].term + "</td><td>" +lenderObject.arrayOfDataRows[i].savings + "</td><td>" + lenderObject.arrayOfDataRows[i].fee + "</td></tr>"); 
+
+//   document.write ("</table>");
+// };
+
+
 Calculator.prototype.displayRateGridInHTML = function(lenderObject) {
-  document.write("<table border=\"1\" cellpadding=\"5\">");
-  document.write("<tr><th>Lender</th><th>New Monthly Payment ($)</th><th>Rate (%)</th><th>Term (yr)</th><th>Total Savings ($)</th><th>Refinance Fee ($)</th></tr>");
+  var table = document.getElementById("myTable");
+  // for (var i=0; i < lenderObject.length; i++){
+    // for (var j=0; j < 5; j++) {
 
-  for (var i = 0; i < lenderObject.arrayOfDataRows.length; i++)
-  document.write( "<tr><td>" + lenderObject.lender_name+ "</td><td>" + lenderObject.arrayOfDataRows[i].payment + "</td><td>" + lenderObject.arrayOfDataRows[i].rate + "</td><td>" + lenderObject.arrayOfDataRows[i].term + "</td><td>" +lenderObject.arrayOfDataRows[i].savings + "</td><td>" + lenderObject.arrayOfDataRows[i].fee + "</td></tr>"); 
+  for (var j = 0; j < lenderObject.arrayOfDataRows.length; j++)
+    var row = table.insertRow(0);
+    var name_cell = row.insertCell(0);
+    name_cell.innerHTML = lenderObject.lender_name;
+    payment_cell.innerHTML = lenderObject.arrayOfDataRows[i].payment;
+    rate_cell.innerHTML = lenderObject.arrayOfDataRows[i].rate;
+    term_cell.innerHTML = lenderObject.arrayOfDataRows[i].term;
+    savings_cell.innerHTML = lenderObject.arrayOfDataRows[i].savings;
+    fee_cell.innerHTML = lenderObject.arrayOfDataRows[i].fee;
 
-  document.write ("</table>");
-};
 
+          // cell1.innerHTML = "NEW CELL1";
+          // var cell2 = row.insertCell(1);
+        }
+        // cell2.innerHTML = "NEW CELL2: " + i;
 
-
+    // table.deleteRow(6);
 
 
  
