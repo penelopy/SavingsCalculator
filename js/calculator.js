@@ -1,4 +1,3 @@
-
 // Monkey patch in new function on String.prototype to format currency numbers
 String.prototype.insertComma = function() {
 if (this.length >= 4) {
@@ -16,30 +15,6 @@ var Calculator = function() {
   this.totalPayments = 0;
   this.outputArray = [];
   this.calculator = this;
-
-
-//   // function myFunction() {
-//     var table = document.getElementById("myTable");
-//     for (var i=0; i < 10; i++){
-//         var row = table.insertRow(0);
-//         for (var j=0; j < 5; j++) {
-//           var cell1 = row.insertCell(0);
-
-//           rate_cell.innerHTML = dataRow.rate;
-          // rate_cell.innerHTML = dataRow.rate;
-          // rate_cell.innerHTML = dataRow.rate;
-          // rate_cell.innerHTML = dataRow.rate;
-          // rate_cell.innerHTML = dataRow.rate;
-          // rate_cell.innerHTML = dataRow.rate;
-          // rate_cell.innerHTML = dataRow.rate;
-          // rate_cell.innerHTML = dataRow.rate;
-
-//           cell1.innerHTML = "NEW CELL1";
-//           // var cell2 = row.insertCell(1);
-//         }
-//         // cell2.innerHTML = "NEW CELL2: " + i;
-// }
-//     table.deleteRow(6);
 
   document.getElementById("clickMe").onclick = function () { window.calculator.processForm(); };
   this.lenda = new LendaLender();
@@ -67,8 +42,7 @@ Calculator.prototype.processAndDisplayData = function() {
     this.processData(currentLender);
   };
   // Display data
-  for (var x=0; x < 1; x++) {
-  // for (var x=0; x < this.lenderObjects.length; x++) {
+  for (var x=0; x < this.lenderObjects.length; x++) {
     currentLender = this.lenderObjects[x];
     this.displayRateGridInHTML(currentLender);
   };
@@ -77,11 +51,7 @@ Calculator.prototype.processAndDisplayData = function() {
 Calculator.prototype.processForm = function() {
   this.loanAmount = document.getElementById("loan_amount").value;
   this.oldMonthlyPayment = document.getElementById("mo_payment").value;
-  // console.log(this.loanAmount);
-  // console.log(this.oldMonthlyPayment);
-  // console.log("processForm");
   this.processAndDisplayData();
-
 };
 
 var dataRow = function(){
@@ -140,9 +110,6 @@ QuickenLender.prototype.preProcess = function() {
 
 Calculator.prototype.processData = function(lenderObject) {
   lenderObject.arrayOfDataRows = [];  
-  // console.log(this.loanAmount);
-  // console.log(this.oldMonthlyPayment);
-  // debugger
   for (var i=0; i < lenderObject.preProcessedData.length; i++) {
 
     newDataRow = new dataRow();
@@ -174,28 +141,8 @@ Calculator.prototype.processData = function(lenderObject) {
   newDataRow.savings =   newDataRow.savings.toString().insertComma();
   newDataRow.payment = newDataRow.payment.toString().insertComma();
   lenderObject.arrayOfDataRows.push(newDataRow);
-
-}
+  }
 };
- 
-// Calculator.prototype.initGrid = function() {
-//   document.write("<table border=\"1\" cellpadding=\"5\">");
-//   document.write("<tr><th>Lender</th><th>New Monthly Payment ($)</th><th>Rate (%)</th><th>Term (yr)</th><th>Total Savings ($)</th><th>Refinance Fee ($)</th></tr>");
-
-//   document.write ("</table>");
-// };
-
-
-// Calculator.prototype.displayRateGridInHTML = function(lenderObject) {
-//   document.write("<table border=\"1\" cellpadding=\"5\">");
-//   document.write("<tr><th>Lender</th><th>New Monthly Payment ($)</th><th>Rate (%)</th><th>Term (yr)</th><th>Total Savings ($)</th><th>Refinance Fee ($)</th></tr>");
-
-//   for (var i = 0; i < lenderObject.arrayOfDataRows.length; i++)
-//   document.write( "<tr><td>" + lenderObject.lender_name + "</td><td>" + lenderObject.arrayOfDataRows[i].payment + "</td><td>" + lenderObject.arrayOfDataRows[i].rate + "</td><td>" + lenderObject.arrayOfDataRows[i].term + "</td><td>" +lenderObject.arrayOfDataRows[i].savings + "</td><td>" + lenderObject.arrayOfDataRows[i].fee + "</td></tr>"); 
-
-//   document.write ("</table>");
-// };
-
 
 Calculator.prototype.displayRateGridInHTML = function(lenderObject) {
   var table = document.getElementById("myTable");
@@ -241,23 +188,7 @@ Calculator.prototype.displayRateGridInHTML = function(lenderObject) {
     term_cell.innerHTML = "Term (yr)";
     savings_cell.innerHTML = "Total Savings ($)";
     fee_cell.innerHTML = "Finance Fee ($)";
-
-    // debugger;
-    // table.deleteRow(0);
 };
-  //   if (lenderObject.firstIteration === false) {
-  //   console.log("if false");
-  //   for (var j=0; j < lenderObject.arrayOfDataRows.length + 1; j++){
-  //     // console.log(lenderObject.arrayOfDataRows[j]);
-  //     table.deleteRow(0);
-  //   }
-  // } else {
-  //   console.log("else");
-  //   lenderObject.firstIteration = false;
-  // };
-
-
-
 
 
 
