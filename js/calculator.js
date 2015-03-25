@@ -6,8 +6,10 @@ if (this.length >= 4) {
 };
 
 var Calculator = function() {
-  this.loanAmount = 0;
-  this.oldMonthlyPayment = 0;
+  this.loanAmount = 500000;
+  this.oldMonthlyPayment = 2500;
+  document.getElementById("loan_amount").value = this.loanAmount;
+  document.getElementById("mo_payment").value = this.oldMonthlyPayment;
   this.newTerm = 0;
   this.monthlyPayment = 0;
   this.monthlyInterestRate = 0;
