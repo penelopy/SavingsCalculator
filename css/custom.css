@@ -1,7 +1,5 @@
 body {
     background-color: rgb(240, 240, 240); 
-    /*background-color: red;*/
-
 }
 
 .form-container {
@@ -26,7 +24,6 @@ body {
     margin: 15px auto;
 }
 .input-boxes {
-    /*border: 1px solid black;*/
     text-align: right;
     width: 35%;
     margin: 10px auto 10px 25%;
@@ -65,5 +62,4 @@ th, td {
     border: 1px solid rgb(50,50,50);
     width: 25px;   
     text-align: right; 
-
 }

@@ -7,23 +7,19 @@ if (this.length >= 4) {
 
 var Calculator = function() {
   this.loanAmount = 500000;
-  this.oldMonthlyPayment = 2500;
+  this.oldMonthlyPayment = 4000;
   document.getElementById("loan_amount").value = this.loanAmount;
   document.getElementById("mo_payment").value = this.oldMonthlyPayment;
   this.newTerm = 0;
   this.monthlyPayment = 0;
   this.monthlyInterestRate = 0;
   this.totalPayments = 0;
-  this.outputArray = [];
   this.calculator = this;
 
   document.getElementById("clickMe").onclick = function () { window.calculator.processForm(); };
   this.lenda = new LendaLender();
   this.wellsfargo = new WellsLender();
   this.quicken = new QuickenLender();
-  this.lenderObjects = [this.wellsfargo];
-  this.lenderObjects = [this.lenda, this.wellsfargo];
-  // this.lenderObjects = [this.lenda, this.wellsfargo, this.quicken];
   this.lenderObjects = [this.wellsfargo, this.quicken, this.lenda];
 
   // Place initial values on GUI
@@ -146,8 +142,6 @@ Calculator.prototype.processData = function(lenderObject) {
   newDataRow.savings =   newDataRow.savings.toString().insertComma();
   newDataRow.payment = newDataRow.payment.toString().insertComma();
   lenderObject.arrayOfDataRows.push(newDataRow);
-  console.log("*****")
-  console.log(lenderObject.arrayOfDataRows);
   }
 };
 
